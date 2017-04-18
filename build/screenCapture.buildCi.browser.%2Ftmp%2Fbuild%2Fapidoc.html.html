@@ -1,0 +1,205 @@
+<html><head></head><body><div class="apidocDiv">
+<style>
+/*csslint
+*/
+.apidocDiv {
+    background: #fff;
+    font-family: Arial, Helvetica, sans-serif;
+}
+.apidocDiv a[href] {
+    color: #33f;
+    font-weight: bold;
+    text-decoration: none;
+}
+.apidocDiv a[href]:hover {
+    text-decoration: underline;
+}
+.apidocCodeCommentSpan {
+    background: #bbf;
+    color: #000;
+    display: block;
+}
+.apidocCodeKeywordSpan {
+    color: #d00;
+    font-weight: bold;
+}
+.apidocCodePre {
+    background: #eef;
+    border: 1px solid;
+    color: #777;
+    padding: 5px;
+    white-space: pre-wrap;
+}
+.apidocFooterDiv {
+    margin-top: 20px;
+    text-align: center;
+}
+.apidocModuleLi {
+    margin-top: 10px;
+}
+.apidocSectionDiv {
+    border-top: 1px solid;
+    margin-top: 20px;
+}
+.apidocSignatureSpan {
+    color: #777;
+    font-weight: bold;
+}
+</style>
+<h1>api documentation for
+    <a href="https://github.com/pid/puid#readme">puid (v1.0.7)</a>
+</h1>
+<h4>Generate an unique ID for use in a distributed environment.</h4>
+<div class="apidocSectionDiv"><a href="#apidoc.tableOfContents" id="apidoc.tableOfContents"><h1>table of contents</h1></a><ol>
+
+    <li class="apidocModuleLi"><a href="#apidoc.module.puid">module puid</a><ol>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.puid.puid">
+            function <span class="apidocSignatureSpan"></span>puid
+            <span class="apidocSignatureSpan">(options)</span>
+            </a>
+
+        </li>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.puid.toString">
+            function <span class="apidocSignatureSpan">puid.</span>toString
+            <span class="apidocSignatureSpan">()</span>
+            </a>
+
+        </li>
+
+    </ol></li>
+
+    <li class="apidocModuleLi"><a href="#apidoc.module.puid.toString">module puid.toString</a><ol>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.puid.toString.toString">
+            function <span class="apidocSignatureSpan">puid.</span>toString
+            <span class="apidocSignatureSpan">()</span>
+            </a>
+
+        </li>
+
+    </ol></li>
+
+</ol></div>
+
+<div class="apidocSectionDiv">
+<h1><a href="#apidoc.module.puid" id="apidoc.module.puid">module puid</a></h1>
+
+
+    <h2>
+        <a href="#apidoc.element.puid.puid" id="apidoc.element.puid.puid">
+        function <span class="apidocSignatureSpan"></span>puid
+        <span class="apidocSignatureSpan">(options)</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">function Piud(options) {
+
+    "use strict";
+
+    this.config = {
+        "nlen": options === void 0 ? 6 : 2, // machine identifier for long or short puid,
+        "plen": 4, // process id
+        "tlen": options === void 0 ? 8 : 12, // timestamp length for long or short puid
+        "clen": 6, // counter/hrtime for long puid
+        "epoch": "1999-06-07 03:00:00 pm GMT" // epoch start for short puid
+    };
+
+    if (options === void 0) {
+
+        // long puid
+        this.type = "long";
+
+        this.nodeId = this.getNodeId();
+        this.processId = this.getProcessId();
+
+    } else {
+
+        // short puid
+        this.type = "short";
+
+        if (typeof options === 'string' &amp;&amp; options.length &lt;= 2) {
+            this.nodeId = options;
+        } else {
+
+            if (typeof options === 'object') {
+
+                if (options.nodeId !== void 0 &amp;&amp; typeof options.nodeId === 'string' &amp;&amp; options.nodeId.length &lt;= 2) {
+                    this.nodeId = options.nodeId;
+                }
+
+                if (options.epoch !== void 0 &amp;&amp; typeof options.epoch === 'string' &amp;&amp; options.epoch.length &gt;= 4) {
+                    if (isNaN(Date.parse(options.epoch))) {
+                        throw new Error("epoch date format error");
+                    }
+                    this.config.epoch = options.epoch;
+                }
+            }
+        }
+
+        // random nodeId
+        if (options !== true &amp;&amp; this.nodeId === void 0) {
+            this.nodeId = this.toBase36String(parseInt(Math.random() * (Math.pow(36, 2) - 1), 10), this.config.nlen);
+        } else {
+            if (options === true) {
+                this.nodeId = '';
+            }
+        }
+
+        this.nodeId = this.nodeId &amp;&amp; this.nodeId.toLowerCase()
+            .trim();
+    }
+}</pre></li>
+    <li>example usage<pre class="apidocCodePre">n/a</pre></li>
+    </ul>
+
+
+
+    <h2>
+        <a href="#apidoc.element.puid.toString" id="apidoc.element.puid.toString">
+        function <span class="apidocSignatureSpan">puid.</span>toString
+        <span class="apidocSignatureSpan">()</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">toString = function () {
+    return text;
+}</pre></li>
+    <li>example usage<pre class="apidocCodePre">n/a</pre></li>
+    </ul>
+
+
+</div>
+
+<div class="apidocSectionDiv">
+<h1><a href="#apidoc.module.puid.toString" id="apidoc.module.puid.toString">module puid.toString</a></h1>
+
+
+    <h2>
+        <a href="#apidoc.element.puid.toString.toString" id="apidoc.element.puid.toString.toString">
+        function <span class="apidocSignatureSpan">puid.</span>toString
+        <span class="apidocSignatureSpan">()</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">function toString() { [native code] }</pre></li>
+    <li>example usage<pre class="apidocCodePre">n/a</pre></li>
+    </ul>
+
+
+</div>
+
+<div class="apidocFooterDiv">
+    [ this document was created with
+    <a href="https://github.com/kaizhu256/node-utility2" target="_blank">utility2</a>
+    ]
+</div>
+</div>
+</body></html>
