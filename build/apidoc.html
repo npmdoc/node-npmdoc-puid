@@ -72,22 +72,86 @@
 
         <li>
 
-            <a class="apidocElementLiA" href="#apidoc.element.puid.toString">
-            function <span class="apidocSignatureSpan">puid.</span>toString
-            <span class="apidocSignatureSpan">()</span>
+            <span class="apidocSignatureSpan">object <span class="apidocSignatureSpan">puid.</span>puid.prototype</span>
+
+        </li>
+
+    </ol></li>
+
+    <li class="apidocModuleLi"><a href="#apidoc.module.puid.puid">module puid.puid</a><ol>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.puid.puid.puid">
+            function <span class="apidocSignatureSpan">puid.</span>puid
+            <span class="apidocSignatureSpan">(options)</span>
             </a>
 
         </li>
 
     </ol></li>
 
-    <li class="apidocModuleLi"><a href="#apidoc.module.puid.toString">module puid.toString</a><ol>
+    <li class="apidocModuleLi"><a href="#apidoc.module.puid.puid.prototype">module puid.puid.prototype</a><ol>
 
         <li>
 
-            <a class="apidocElementLiA" href="#apidoc.element.puid.toString.toString">
-            function <span class="apidocSignatureSpan">puid.</span>toString
+            <a class="apidocElementLiA" href="#apidoc.element.puid.puid.prototype.generate">
+            function <span class="apidocSignatureSpan">puid.puid.prototype.</span>generate
             <span class="apidocSignatureSpan">()</span>
+            </a>
+
+        </li>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.puid.puid.prototype.getCounter">
+            function <span class="apidocSignatureSpan">puid.puid.prototype.</span>getCounter
+            <span class="apidocSignatureSpan">()</span>
+            </a>
+
+        </li>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.puid.puid.prototype.getNanos">
+            function <span class="apidocSignatureSpan">puid.puid.prototype.</span>getNanos
+            <span class="apidocSignatureSpan">()</span>
+            </a>
+
+        </li>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.puid.puid.prototype.getNodeId">
+            function <span class="apidocSignatureSpan">puid.puid.prototype.</span>getNodeId
+            <span class="apidocSignatureSpan">(networkInterfaces, fallback)</span>
+            </a>
+
+        </li>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.puid.puid.prototype.getProcessId">
+            function <span class="apidocSignatureSpan">puid.puid.prototype.</span>getProcessId
+            <span class="apidocSignatureSpan">()</span>
+            </a>
+
+        </li>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.puid.puid.prototype.getTimestamp">
+            function <span class="apidocSignatureSpan">puid.puid.prototype.</span>getTimestamp
+            <span class="apidocSignatureSpan">()</span>
+            </a>
+
+        </li>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.puid.puid.prototype.toBase36String">
+            function <span class="apidocSignatureSpan">puid.puid.prototype.</span>toBase36String
+            <span class="apidocSignatureSpan">(value, padding)</span>
             </a>
 
         </li>
@@ -169,15 +233,76 @@
 
 
 
+
+</div>
+
+<div class="apidocSectionDiv">
+<h1><a href="#apidoc.module.puid.puid" id="apidoc.module.puid.puid">module puid.puid</a></h1>
+
+
     <h2>
-        <a href="#apidoc.element.puid.toString" id="apidoc.element.puid.toString">
-        function <span class="apidocSignatureSpan">puid.</span>toString
-        <span class="apidocSignatureSpan">()</span>
+        <a href="#apidoc.element.puid.puid.puid" id="apidoc.element.puid.puid.puid">
+        function <span class="apidocSignatureSpan">puid.</span>puid
+        <span class="apidocSignatureSpan">(options)</span>
         </a>
     </h2>
     <ul>
-    <li>description and source-code<pre class="apidocCodePre">toString = function () {
-    return text;
+    <li>description and source-code<pre class="apidocCodePre">function Piud(options) {
+
+    &#x22;use strict&#x22;;
+
+    this.config = {
+        &#x22;nlen&#x22;: options === void 0 ? 6 : 2, // machine identifier for long or short puid,
+        &#x22;plen&#x22;: 4, // process id
+        &#x22;tlen&#x22;: options === void 0 ? 8 : 12, // timestamp length for long or short puid
+        &#x22;clen&#x22;: 6, // counter/hrtime for long puid
+        &#x22;epoch&#x22;: &#x22;1999-06-07 03:00:00 pm GMT&#x22; // epoch start for short puid
+    };
+
+    if (options === void 0) {
+
+        // long puid
+        this.type = &#x22;long&#x22;;
+
+        this.nodeId = this.getNodeId();
+        this.processId = this.getProcessId();
+
+    } else {
+
+        // short puid
+        this.type = &#x22;short&#x22;;
+
+        if (typeof options === &#x27;string&#x27; &#x26;&#x26; options.length &#x3c;= 2) {
+            this.nodeId = options;
+        } else {
+
+            if (typeof options === &#x27;object&#x27;) {
+
+                if (options.nodeId !== void 0 &#x26;&#x26; typeof options.nodeId === &#x27;string&#x27; &#x26;&#x26; options.nodeId.length &#x3c;= 2) {
+                    this.nodeId = options.nodeId;
+                }
+
+                if (options.epoch !== void 0 &#x26;&#x26; typeof options.epoch === &#x27;string&#x27; &#x26;&#x26; options.epoch.length &#x3e;= 4) {
+                    if (isNaN(Date.parse(options.epoch))) {
+                        throw new Error(&#x22;epoch date format error&#x22;);
+                    }
+                    this.config.epoch = options.epoch;
+                }
+            }
+        }
+
+        // random nodeId
+        if (options !== true &#x26;&#x26; this.nodeId === void 0) {
+            this.nodeId = this.toBase36String(parseInt(Math.random() * (Math.pow(36, 2) - 1), 10), this.config.nlen);
+        } else {
+            if (options === true) {
+                this.nodeId = &#x27;&#x27;;
+            }
+        }
+
+        this.nodeId = this.nodeId &#x26;&#x26; this.nodeId.toLowerCase()
+            .trim();
+    }
 }</pre></li>
     <li>example usage<pre class="apidocCodePre">n/a</pre></li>
     </ul>
@@ -186,18 +311,272 @@
 </div>
 
 <div class="apidocSectionDiv">
-<h1><a href="#apidoc.module.puid.toString" id="apidoc.module.puid.toString">module puid.toString</a></h1>
+<h1><a href="#apidoc.module.puid.puid.prototype" id="apidoc.module.puid.puid.prototype">module puid.puid.prototype</a></h1>
 
 
     <h2>
-        <a href="#apidoc.element.puid.toString.toString" id="apidoc.element.puid.toString.toString">
-        function <span class="apidocSignatureSpan">puid.</span>toString
+        <a href="#apidoc.element.puid.puid.prototype.generate" id="apidoc.element.puid.puid.prototype.generate">
+        function <span class="apidocSignatureSpan">puid.puid.prototype.</span>generate
         <span class="apidocSignatureSpan">()</span>
         </a>
     </h2>
     <ul>
-    <li>description and source-code<pre class="apidocCodePre">function toString() { [native code] }</pre></li>
-    <li>example usage<pre class="apidocCodePre">n/a</pre></li>
+    <li>description and source-code<pre class="apidocCodePre">function generate() {
+
+    if (this.type[0] === &#x22;l&#x22;) {
+        return this.getTimestamp() + this.processId + this.nodeId + this.getCounter();
+    } else {
+        return this.getNanos() + this.nodeId;
+    }
+
+}</pre></li>
+    <li>example usage<pre class="apidocCodePre">...
+
+var Puid = require(&#x27;puid&#x27;);
+var puid;
+
+// generate puid (long-version 24-chars)
+
+puid = new Puid();
+console.log(puid.<span class="apidocCodeKeywordSpan">generate</span>());   // hgqy29gr11cm2504cdf8rg7q
+
+
+// generate puid (short-version 12-chars) without nodeId / **Shortcut**
+
+puid = new Puid(true);
+console.log(puid.generate());  // 3bqk9my968mc
+...</pre></li>
+    </ul>
+
+
+
+    <h2>
+        <a href="#apidoc.element.puid.puid.prototype.getCounter" id="apidoc.element.puid.puid.prototype.getCounter">
+        function <span class="apidocSignatureSpan">puid.puid.prototype.</span>getCounter
+        <span class="apidocSignatureSpan">()</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">function getCounter() {
+
+    return this.toBase36String(process.hrtime()[1], this.config.clen);
+}</pre></li>
+    <li>example usage<pre class="apidocCodePre">...
+            .trim();
+    }
+};
+
+Puid.prototype.generate = function generate() {
+
+    if (this.type[0] === &#x22;l&#x22;) {
+        return this.getTimestamp() + this.processId + this.nodeId + this.<span class="apidocCodeKeywordSpan">getCounter</span>();
+    } else {
+        return this.getNanos() + this.nodeId;
+    }
+
+};
+
+Puid.prototype.getTimestamp = function getTimestamp() {
+...</pre></li>
+    </ul>
+
+
+
+    <h2>
+        <a href="#apidoc.element.puid.puid.prototype.getNanos" id="apidoc.element.puid.puid.prototype.getNanos">
+        function <span class="apidocSignatureSpan">puid.puid.prototype.</span>getNanos
+        <span class="apidocSignatureSpan">()</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">function getNanos() {
+
+    var hrt = &#x27;&#x27; + process.hrtime()[1];
+
+    while (hrt.length &#x3c; 9) {
+        hrt = &#x22;0&#x22; + hrt;
+    }
+
+    var time = parseInt(Date.now() / 1000, 10) - parseInt(Date.parse(this.config.epoch) / 1000, 10);
+
+    return this.toBase36String(time + &#x27;&#x27; + hrt, this.config.tlen);
+}</pre></li>
+    <li>example usage<pre class="apidocCodePre">...
+};
+
+Puid.prototype.generate = function generate() {
+
+if (this.type[0] === &#x22;l&#x22;) {
+    return this.getTimestamp() + this.processId + this.nodeId + this.getCounter();
+} else {
+    return this.<span class="apidocCodeKeywordSpan">getNanos</span>() + this.nodeId;
+}
+
+};
+
+Puid.prototype.getTimestamp = function getTimestamp() {
+
+return this.toBase36String(Date.now(), this.config.tlen);
+...</pre></li>
+    </ul>
+
+
+
+    <h2>
+        <a href="#apidoc.element.puid.puid.prototype.getNodeId" id="apidoc.element.puid.puid.prototype.getNodeId">
+        function <span class="apidocSignatureSpan">puid.puid.prototype.</span>getNodeId
+        <span class="apidocSignatureSpan">(networkInterfaces, fallback)</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">function getNodeId(networkInterfaces, fallback) {
+
+    var i, v, value;
+
+    networkInterfaces = networkInterfaces || os.networkInterfaces() || {};
+
+    if (!fallback) {
+<span class="apidocCodeCommentSpan">        /* jshint -W015: true */
+</span>        interfaces: for (i in networkInterfaces) {
+            for (v in i) {
+                if (networkInterfaces[i][v] &#x26;&#x26; networkInterfaces[i][v].address.length &#x26;&#x26; !networkInterfaces[i][v].internal) {
+                    value = networkInterfaces[i][v].address;
+                    break interfaces;
+                }
+            }
+        }
+    }
+
+    return crypto.createHash(&#x27;md5&#x27;)
+        .update(fallback || value || os.hostname(), &#x27;utf8&#x27;)
+        .digest(&#x27;hex&#x27;)
+        .slice(-this.config.nlen);
+}</pre></li>
+    <li>example usage<pre class="apidocCodePre">...
+    };
+
+    if (options === void 0) {
+
+// long puid
+this.type = &#x22;long&#x22;;
+
+this.nodeId = this.<span class="apidocCodeKeywordSpan">getNodeId</span>();
+this.processId = this.getProcessId();
+
+    } else {
+
+// short puid
+this.type = &#x22;short&#x22;;
+...</pre></li>
+    </ul>
+
+
+
+    <h2>
+        <a href="#apidoc.element.puid.puid.prototype.getProcessId" id="apidoc.element.puid.puid.prototype.getProcessId">
+        function <span class="apidocSignatureSpan">puid.puid.prototype.</span>getProcessId
+        <span class="apidocSignatureSpan">()</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">function getProcessId() {
+
+    return this.toBase36String(process.pid, this.config.plen);
+}</pre></li>
+    <li>example usage<pre class="apidocCodePre">...
+
+    if (options === void 0) {
+
+// long puid
+this.type = &#x22;long&#x22;;
+
+this.nodeId = this.getNodeId();
+this.processId = this.<span class="apidocCodeKeywordSpan">getProcessId</span>();
+
+    } else {
+
+// short puid
+this.type = &#x22;short&#x22;;
+
+if (typeof options === &#x27;string&#x27; &#x26;&#x26; options.length &#x3c;= 2) {
+...</pre></li>
+    </ul>
+
+
+
+    <h2>
+        <a href="#apidoc.element.puid.puid.prototype.getTimestamp" id="apidoc.element.puid.puid.prototype.getTimestamp">
+        function <span class="apidocSignatureSpan">puid.puid.prototype.</span>getTimestamp
+        <span class="apidocSignatureSpan">()</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">function getTimestamp() {
+
+    return this.toBase36String(Date.now(), this.config.tlen);
+}</pre></li>
+    <li>example usage<pre class="apidocCodePre">...
+            .trim();
+    }
+};
+
+Puid.prototype.generate = function generate() {
+
+    if (this.type[0] === &#x22;l&#x22;) {
+        return this.<span class="apidocCodeKeywordSpan">getTimestamp</span>() + this.processId + this.nodeId + this.getCounter();
+    } else {
+        return this.getNanos() + this.nodeId;
+    }
+
+};
+
+Puid.prototype.getTimestamp = function getTimestamp() {
+...</pre></li>
+    </ul>
+
+
+
+    <h2>
+        <a href="#apidoc.element.puid.puid.prototype.toBase36String" id="apidoc.element.puid.puid.prototype.toBase36String">
+        function <span class="apidocSignatureSpan">puid.puid.prototype.</span>toBase36String
+        <span class="apidocSignatureSpan">(value, padding)</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">function toBase36String(value, padding) {
+
+    if (isNaN(value)) {
+        throw new Error(&#x27;error in toBase36String: value is NaN: \&#x22;&#x27; + value + &#x27;\&#x22;&#x27;);
+    }
+    padding = padding &#x26;&#x26; !isNaN(padding) ? padding : 2;
+
+    var hex = Number(Math.abs(value))
+        .toString(36);
+
+    while (hex.length &#x3c; padding) {
+        hex = &#x22;0&#x22; + hex;
+    }
+
+    return hex.substr(0, padding);
+}</pre></li>
+    <li>example usage<pre class="apidocCodePre">...
+            this.config.epoch = options.epoch;
+        }
+    }
+}
+
+// random nodeId
+if (options !== true &#x26;&#x26; this.nodeId === void 0) {
+    this.nodeId = this.<span class="apidocCodeKeywordSpan">toBase36String</span>(parseInt(Math.random() * (Math.pow(36, 2) - 1),
+10), this.config.nlen);
+} else {
+    if (options === true) {
+        this.nodeId = &#x27;&#x27;;
+    }
+}
+
+this.nodeId = this.nodeId &#x26;&#x26; this.nodeId.toLowerCase()
+...</pre></li>
     </ul>
 
 
