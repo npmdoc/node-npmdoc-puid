@@ -1,4 +1,7 @@
-# api documentation for  [puid (v1.0.7)](https://github.com/pid/puid#readme)  [![npm package](https://img.shields.io/npm/v/npmdoc-puid.svg?style=flat-square)](https://www.npmjs.org/package/npmdoc-puid) [![travis-ci.org build-status](https://api.travis-ci.org/npmdoc/node-npmdoc-puid.svg)](https://travis-ci.org/npmdoc/node-npmdoc-puid)
+# npmdoc-puid
+
+#### basic api documentation for  [puid (v1.0.7)](https://github.com/pid/puid#readme)  [![npm package](https://img.shields.io/npm/v/npmdoc-puid.svg?style=flat-square)](https://www.npmjs.org/package/npmdoc-puid) [![travis-ci.org build-status](https://api.travis-ci.org/npmdoc/node-npmdoc-puid.svg)](https://travis-ci.org/npmdoc/node-npmdoc-puid)
+
 #### Generate an unique ID for use in a distributed environment.
 
 [![NPM](https://nodei.co/npm/puid.png?downloads=true&downloadRank=true&stars=true)](https://www.npmjs.com/package/puid)
@@ -77,7 +80,8 @@
     "scripts": {
         "test": "./node_modules/mocha/bin/mocha -R spec"
     },
-    "version": "1.0.7"
+    "version": "1.0.7",
+    "bin": {}
 }
 ```
 
